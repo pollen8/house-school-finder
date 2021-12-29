@@ -1,0 +1,71 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./schools.db"
+}
+
+// model Post {
+//   id        Int      @id @default(autoincrement())
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @updatedAt
+//   title     String?
+//   content   String?
+//   published Boolean  @default(false)
+//   author    User     @relation(fields: [authorId], references: [id])
+//   authorId  Int
+// }
+
+model Profile {
+  id     Int     @id @default(autoincrement())
+  bio    String?
+  user   User    @relation(fields: [userId], references: [id])
+  userId Int     @unique
+}
+
+model User {
+  id      Int      @id @default(autoincrement())
+  email   String   @unique
+  name    String?
+  // posts   Post[]
+  profile Profile?
+}
+
+model School {
+  URN         String    @id @default(cuid())
+  LANAME      String
+  LA          Int
+  ESTAB       Int
+  LAESTAB     Int
+  SCHNAME     String
+  STREET      String?
+  LOCALITY    String?
+  ADDRESS3    String?
+  TOWN        String?
+  POSTCODE    String?
+  SCHSTATUS   String?
+  OPENDATE    DateTime?
+  CLOSEDATE   DateTime?
+  MINORGROUP  String?
+  SCHOOLTYPE  String?
+  ISPRIMARY   Int?
+  ISSECONDARY Int?
+  ISPOST16    Int?
+  AGELOW      Int?
+  AGEHIGH     Int?
+  GENDER      String?
+  RELCHAR     String?
+  ADMPOL      String?
+}
+
+model LocalAuthorities {
+  LEA        Int    @id
+  LANAME     String
+  REGION     Int
+  REGIONNAME String
+}

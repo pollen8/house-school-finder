@@ -1,0 +1,48 @@
+-- CreateTable
+CREATE TABLE "Profile" (
+    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "bio" TEXT,
+    "userId" INTEGER NOT NULL,
+    CONSTRAINT "Profile_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
+);
+
+-- CreateTable
+CREATE TABLE "User" (
+    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "email" TEXT NOT NULL,
+    "name" TEXT
+);
+
+-- CreateTable
+CREATE TABLE "School" (
+    "URN" TEXT NOT NULL PRIMARY KEY,
+    "LANAME" TEXT NOT NULL,
+    "LA" INTEGER NOT NULL,
+    "ESTAB" INTEGER NOT NULL,
+    "LAESTAB" INTEGER NOT NULL,
+    "SCHNAME" TEXT NOT NULL,
+    "STREET" TEXT,
+    "LOCALITY" TEXT,
+    "ADDRESS3" TEXT,
+    "TOWN" TEXT,
+    "POSTCODE" TEXT,
+    "SCHSTATUS" TEXT,
+    "OPENDATE" DATETIME,
+    "CLOSEDATE" DATETIME,
+    "MINORGROUP" TEXT,
+    "SCHOOLTYPE" TEXT,
+    "ISPRIMARY" INTEGER,
+    "ISSECONDARY" INTEGER,
+    "ISPOST16" INTEGER,
+    "AGELOW" INTEGER,
+    "AGEHIGH" INTEGER,
+    "GENDER" TEXT,
+    "RELCHAR" TEXT,
+    "ADMPOL" TEXT
+);
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Profile_userId_key" ON "Profile"("userId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
