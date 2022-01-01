@@ -9,6 +9,7 @@ server/prisma/node_modules/
 /.pnp
 .pnp.js
 
+/client/.env
 # testing
 /coverage
 

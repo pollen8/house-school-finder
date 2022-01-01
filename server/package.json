@@ -1,7 +1,6 @@
 {
   "name": "typescript-graphql",
   "license": "MIT",
-  "type": "module",
   "scripts": {
     "dev": "ts-node-dev --no-notify --respawn --transpile-only src/server",
     "start": "node dist/server",

@@ -16,20 +16,21 @@ import { Map } from './components/Map';
 import { Search } from './components/Search';
 
 const GET_SCHOOLS = gql`
-  query SchoolQuery {
-    allSchools(first:1) {
+  query SchoolQuery($first: Int $skip: Int) {
+    allSchools(first: $first, skip: $skip) {
       URN
       LANAME
+      COORDINATES
+      SCHNAME
     }
   }
 `;
 
 
-
 function App() {
   const { loading, error, data } = useQuery(GET_SCHOOLS, {
 
-    variables: { take: 10 },
+    variables: { first: 100000, skip: 0 },
   });
   if (loading) {
     return <p>Loading...</p>;
@@ -49,7 +50,7 @@ function App() {
         </div>
 
         <div>
-          <Map />
+          <Map markers={data.allSchools} />
         </div>
         <div></div>
       </Grid>

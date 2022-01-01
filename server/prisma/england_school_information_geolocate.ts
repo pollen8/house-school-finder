@@ -41,6 +41,7 @@ const processFile = async () => {
 };
 
 const lookup = async (school: any, address: string) => {
+  console.log(school, lookup);
   const geo = await fetch(`http://open.mapquestapi.com/geocoding/v1/address?key=6grLGEUyd8e9LS0s1LhuQnlebHaw69CJ&location=${encodeURIComponent(address)}`);
   const result = (await (geo.json() as any)).results[0].locations[0];
   if (['ADDRESS', 'POINT', 'INTERSECTION', 'STREET', 'NEIGHBORHOOD'].includes(result.geocodeQuality)) {

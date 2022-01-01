@@ -26,6 +26,7 @@ export const typeDefs = gql`
     GENDER: String
     RELCHAR: String
     ADMPOL: String
+    COORDINATES: String
   }
 
   type LocalAuthority {

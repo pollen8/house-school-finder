@@ -1,32 +1,88 @@
 import {
-  GoogleMap,
-  Marker,
-  withGoogleMap,
-  withScriptjs,
-} from 'react-google-maps';
-import {
-  compose,
-  withProps,
-} from 'recompose';
+  FC,
+  useCallback,
+  useState,
+} from 'react';
 
-export const Map = compose(
-  withProps({
-    googleMapURL: "https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyDtnsI7p-Orz-XKKG6SBlHxljt3ZosJ2vc&libraries=geometry,drawing,places",
-    loadingElement: <div style={{ height: `100%` }} />,
-    containerElement: <div style={{ height: `400px` }} />,
-    mapElement: <div style={{ height: `100%` }} />,
-  }),
-  withScriptjs,
-  withGoogleMap
-)((props: any) => {
-  return (
-    <GoogleMap
-      defaultZoom={8}
-      defaultCenter={{ lat: -34.397, lng: 150.644 }}
-    >
-      {props.isMarkerShown && <Marker position={{ lat: -34.397, lng: 150.644 }} />}
-    </GoogleMap>
-  )
+import {
+  GoogleMap,
+  InfoWindow,
+  Marker,
+  MarkerClusterer,
+  useGoogleMap,
+  useJsApiLoader,
+} from '@react-google-maps/api';
+
+type Location = any;
+
+type Props = {
+  markers: Location[];
 }
 
-)
+const containerStyle = {
+  width: '400px',
+  height: '400px'
+};
+
+const center = {
+  lat: 51.55424,
+  lng: -0.138815,
+};
+
+export const Map: FC<Props> = ({
+  markers,
+}) => {
+  const { isLoaded } = useJsApiLoader({
+    id: 'google-map-script',
+    googleMapsApiKey: process.env.REACT_APP_GOOGLE_API_KEY ?? '',
+  })
+
+  const [map, setMap] = useState<google.maps.Map | null>(null)
+  const [activeMarkerPosition, setActiveMarkerPosition] = useState<google.maps.LatLng | null>(null);
+  const [activeMarker, setActiveMarker] = useState<Location | null>(null);
+  const onLoad = useCallback((map) => {
+    setMap(map)
+  }, [])
+
+  const onUnmount = useCallback((map) => {
+    setMap(null)
+  }, [])
+
+  return isLoaded ? (
+    <GoogleMap
+      mapContainerStyle={containerStyle}
+      center={center}
+      zoom={10}
+      onLoad={onLoad}
+      onBoundsChanged={() => console.log(map?.getBounds())}
+      onUnmount={onUnmount}
+    >
+      <MarkerClusterer options={{}}>
+        {(clusterer) =>
+          markers.map((marker) => (
+            <Marker key={marker.URN}
+              position={JSON.parse(marker.COORDINATES)}
+              onClick={(e) => {
+                console.log(e);
+                setActiveMarkerPosition(e.latLng);
+                setActiveMarker(marker);
+              }}
+              clusterer={clusterer} />
+          ))
+        }
+      </MarkerClusterer>
+      {
+        (activeMarkerPosition && activeMarker) &&
+        <InfoWindow
+          position={activeMarkerPosition}
+          options={{ pixelOffset: { height: -40, width: 0 } as google.maps.Size }}
+          onCloseClick={() => {
+            setActiveMarkerPosition(null);
+            setActiveMarker(null);
+          }}>
+          <h1>{activeMarker.SCHNAME}</h1>
+        </InfoWindow>
+      }
+    </GoogleMap>
+  ) : <></>
+}
