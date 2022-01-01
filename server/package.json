@@ -1,6 +1,7 @@
 {
   "name": "typescript-graphql",
   "license": "MIT",
+  "type": "module",
   "scripts": {
     "dev": "ts-node-dev --no-notify --respawn --transpile-only src/server",
     "start": "node dist/server",
@@ -19,10 +20,12 @@
     "apollo-server": "3.5.0",
     "csv-parse": "^5.0.3",
     "eslint": "^8.5.0",
+    "got": "^12.0.0",
     "graphql": "15.8.0",
     "graphql-scalars": "1.14.1",
     "graphql-tools": "^8.2.0",
-    "nexus": "1.1.0"
+    "nexus": "1.1.0",
+    "node-fetch": "^3.1.0"
   },
   "devDependencies": {
     "@types/node": "^16.11.17",

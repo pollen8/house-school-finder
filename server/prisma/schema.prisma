@@ -61,6 +61,7 @@ model School {
   GENDER      String?
   RELCHAR     String?
   ADMPOL      String?
+  COORDINATES String?
 }
 
 model LocalAuthorities {
