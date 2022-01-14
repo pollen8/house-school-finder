@@ -1,7 +1,7 @@
 # server
 
 create school data:
-`npx ts-node prisma/england_school_information_create.ts  `
+`npx ts-node prisma/seed.ts  `
 
 run prisma client
 `npx prisma studio`

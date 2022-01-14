@@ -9,7 +9,6 @@ import {
   InfoWindow,
   Marker,
   MarkerClusterer,
-  useGoogleMap,
   useJsApiLoader,
 } from '@react-google-maps/api';
 
@@ -17,12 +16,9 @@ type Location = any;
 
 type Props = {
   markers: Location[];
+  width: number;
+  height: number;
 }
-
-const containerStyle = {
-  width: '400px',
-  height: '400px'
-};
 
 const center = {
   lat: 51.55424,
@@ -30,6 +26,8 @@ const center = {
 };
 
 export const Map: FC<Props> = ({
+  width,
+  height,
   markers,
 }) => {
   const { isLoaded } = useJsApiLoader({
@@ -50,7 +48,10 @@ export const Map: FC<Props> = ({
 
   return isLoaded ? (
     <GoogleMap
-      mapContainerStyle={containerStyle}
+      mapContainerStyle={{
+        width: `${width}px`,
+        height: `${height}px`
+      }}
       center={center}
       zoom={10}
       onLoad={onLoad}
@@ -84,5 +85,5 @@ export const Map: FC<Props> = ({
         </InfoWindow>
       }
     </GoogleMap>
-  ) : <></>
+  ) : <>Loading map...</>
 }

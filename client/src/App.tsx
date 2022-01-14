@@ -1,19 +1,15 @@
 import './App.css';
 
 import React from 'react';
+import useMeasure from 'react-use-measure';
 
 import {
   gql,
   useQuery,
 } from '@apollo/client';
-import {
-  Grid,
-  Heading,
-} from '@chakra-ui/react';
 
 import Header from './components/Header';
 import { Map } from './components/Map';
-import { Search } from './components/Search';
 
 const GET_SCHOOLS = gql`
   query SchoolQuery($first: Int $skip: Int) {
@@ -26,34 +22,26 @@ const GET_SCHOOLS = gql`
   }
 `;
 
-
 function App() {
-  const { loading, error, data } = useQuery(GET_SCHOOLS, {
+  const [ref, { width, height }] = useMeasure({ polyfill: ResizeObserver });
 
+  const { loading, error, data } = useQuery(GET_SCHOOLS, {
     variables: { first: 100000, skip: 0 },
   });
   if (loading) {
     return <p>Loading...</p>;
   }
   if (error) {
-    console.log(error);
     return <p>error</p>;
   }
-  console.log('data', data);
   return (
-    <div className="App">
+    <div ref={ref} style={{ display: 'flex', flexDirection: 'column' }}>
       <Header />
-      <Heading>Search properties</Heading>
-      <Grid templateColumns="20rem 1fr 20rem" gap={6}>
-        <div>
-          <Search />
-        </div>
-
-        <div>
-          <Map markers={data.allSchools} />
-        </div>
-        <div></div>
-      </Grid>
+      <div>
+        <Map markers={data.allSchools}
+          width={width}
+          height={height - 75} />
+      </div>
 
     </div >
   );

@@ -14,10 +14,11 @@ import {
 } from '@chakra-ui/react';
 
 import { SearchHouses } from './SearchHouses';
+import { SearchSchools } from './SearchSchools';
 
 const GET_LOCAL_AUTHORITIES = gql`
 query LocalAuthorityQuery {
-  allLocalAuthorities(first: 10) {
+  allLocalAuthorities {
     LEA
     LANAME
     REGION
@@ -28,8 +29,6 @@ query LocalAuthorityQuery {
 
 export const Search = () => {
   const { loading, error, data } = useQuery(GET_LOCAL_AUTHORITIES, {
-
-    variables: { take: 10 },
   });
   if (loading) {
     return <p>Loading...</p>;
@@ -54,7 +53,7 @@ export const Search = () => {
             <SearchHouses />
           </TabPanel>
           <TabPanel>
-
+            <SearchSchools />
           </TabPanel>
 
         </TabPanels>

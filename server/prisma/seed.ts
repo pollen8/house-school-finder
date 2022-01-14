@@ -4,7 +4,7 @@ import fs from 'fs';
 import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient()
-console.log(__dirname);
+
 const processFile = async () => {
   const records = [];
   const parser = fs

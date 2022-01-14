@@ -5,7 +5,6 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient()
 
 const processFile = async () => {
-  console.log('tart');
   const schools = await prisma.school.findMany({
     // take: 30,
     // skip: 30,
@@ -24,7 +23,7 @@ const processFile = async () => {
       }
     }
   });
-  console.log('schools to geocode', schools.length);
+
   for await (const school of schools) {
     const location = `${school.STREET},${school.LOCALITY},${school.ADDRESS3},${school.TOWN},${school.POSTCODE}`;
     const shortLocation = `${school.STREET},${school.TOWN},${school.POSTCODE}`;
